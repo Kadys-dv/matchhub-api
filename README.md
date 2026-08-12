@@ -18,9 +18,10 @@ API REST real para criação e gerenciamento seguro de partidas esportivas, dese
 Com Docker instalado, gere uma chave Base64 segura, defina `JWT_SECRET` e execute:
 
 ```bash
-./mvnw clean package
 docker compose up --build
 ```
+
+O Dockerfile usa build em duas etapas: compila o projeto com Maven dentro do container e publica somente o JAR na imagem Java de execução. Não é necessário gerar a pasta `target` previamente no computador.
 
 Swagger: `http://localhost:8080/swagger-ui.html`  
 Saúde: `http://localhost:8080/actuator/health`

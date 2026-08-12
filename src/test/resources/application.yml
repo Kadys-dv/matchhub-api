@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:matchhub;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+app:
+  jwt:
+    issuer: matchhub-test
+    secret: bWF0Y2hodWItdGVzdC1zZWNyZXQtdGhhdC1pcy1sb25nLWVub3VnaC0yNTYtYml0cw==
+    ttl: PT1H

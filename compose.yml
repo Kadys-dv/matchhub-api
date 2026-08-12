@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: matchhub
+      POSTGRES_USER: matchhub
+      POSTGRES_PASSWORD: matchhub
+    ports:
+      - "5432:5432"
+    volumes:
+      - matchhub_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U matchhub"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    build: .
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/matchhub
+      DATABASE_USER: matchhub
+      DATABASE_PASSWORD: matchhub
+      JWT_SECRET: ${JWT_SECRET:?configure JWT_SECRET em Base64}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  matchhub_data:

@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: matchhub-api
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/matchhub}
+    username: ${DATABASE_USER:matchhub}
+    password: ${DATABASE_PASSWORD:matchhub}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+server:
+  error:
+    include-message: never
+app:
+  jwt:
+    issuer: matchhub-api
+    secret: ${JWT_SECRET:bWF0Y2hodWItZGV2ZWxvcG1lbnQtc2VjcmV0LWNoYW5nZS1tZS1iZWZvcmUtcHJvZHVjdGlvbg==}
+    ttl: PT2H
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

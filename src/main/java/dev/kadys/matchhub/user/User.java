@@ -12,16 +12,21 @@ public class User {
     @Column(nullable = false, unique = true, length = 180) private String email;
     @Column(name = "password_hash", nullable = false, length = 100) private String passwordHash;
     @Enumerated(EnumType.STRING) @Column(nullable = false, length = 20) private Role role;
+    @Column(nullable = false) private boolean enabled;
     @Column(name = "created_at", nullable = false) private Instant createdAt;
 
     protected User() {}
     public User(String name, String email, String passwordHash) {
         this.id = UUID.randomUUID(); this.name = name; this.email = email;
-        this.passwordHash = passwordHash; this.role = Role.PLAYER; this.createdAt = Instant.now();
+        this.passwordHash = passwordHash; this.role = Role.PLAYER; this.enabled = true; this.createdAt = Instant.now();
     }
     public UUID getId() { return id; }
     public String getName() { return name; }
     public String getEmail() { return email; }
     public String getPasswordHash() { return passwordHash; }
     public Role getRole() { return role; }
+    public Instant getCreatedAt() { return createdAt; }
+    public boolean isEnabled() { return enabled; }
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+    public void promoteToAdmin() { this.role = Role.ADMIN; }
 }

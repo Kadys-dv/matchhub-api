@@ -12,4 +12,5 @@ public final class MatchDtos {
         MatchStatus status,UUID organizerId,String organizerName) {
         static Response of(Match match,long confirmed) { return new Response(match.getId(),match.getTitle(),match.getSport(),match.getAddress(),match.getStartsAt(),match.getCapacity(),confirmed,match.getStatus(),match.getOrganizer().getId(),match.getOrganizer().getName()); }
     }
+    public record ParticipantResponse(UUID id, String name, String email, Instant joinedAt) {}
 }

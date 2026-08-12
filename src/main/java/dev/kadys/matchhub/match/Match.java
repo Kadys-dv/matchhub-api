@@ -28,6 +28,7 @@ public class Match {
     public void markFull() { status = MatchStatus.FULL; }
     public void reopen() { status = MatchStatus.OPEN; }
     public void complete() { status = MatchStatus.COMPLETED; }
+    public void cancel() { status = MatchStatus.CANCELLED; }
     public UUID getId() { return id; }
     public String getTitle() { return title; }
     public String getSport() { return sport; }

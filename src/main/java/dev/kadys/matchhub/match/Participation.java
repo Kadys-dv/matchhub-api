@@ -14,4 +14,6 @@ public class Participation {
     @Column(name = "joined_at", nullable = false) private Instant joinedAt;
     protected Participation() {}
     public Participation(Match match, User player) { this.id = UUID.randomUUID(); this.match = match; this.player = player; this.joinedAt = Instant.now(); }
+    public User getPlayer() { return player; }
+    public Instant getJoinedAt() { return joinedAt; }
 }

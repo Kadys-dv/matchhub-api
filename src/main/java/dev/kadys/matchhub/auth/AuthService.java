@@ -20,21 +20,22 @@ public class AuthService {
     }
     @Transactional
     public AuthDtos.AuthResponse register(AuthDtos.RegisterRequest request) {
-        String email = request.email().trim().toLowerCase();
+        String email=request.email().trim().toLowerCase();
         if (users.existsByEmailIgnoreCase(email)) throw new ConflictException("E-mail já cadastrado.");
-        return tokenFor(users.save(new User(request.name().trim(), email, passwords.encode(request.password()))));
+        return tokenFor(users.save(new User(request.name().trim(),email,passwords.encode(request.password()))));
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly=true)
     public AuthDtos.AuthResponse login(AuthDtos.LoginRequest request) {
-        User user = users.findByEmailIgnoreCase(request.email().trim()).orElseThrow(() -> new UnauthorizedException("Credenciais inválidas."));
-        if (!passwords.matches(request.password(), user.getPasswordHash())) throw new UnauthorizedException("Credenciais inválidas.");
+        User user=users.findByEmailIgnoreCase(request.email().trim()).orElseThrow(() -> new UnauthorizedException("Credenciais inválidas."));
+        if (!user.isEnabled()) throw new UnauthorizedException("Conta desativada. Entre em contato com a administração.");
+        if (!passwords.matches(request.password(),user.getPasswordHash())) throw new UnauthorizedException("Credenciais inválidas.");
         return tokenFor(user);
     }
     private AuthDtos.AuthResponse tokenFor(User user) {
         Instant now=Instant.now();
         var claims=JwtClaimsSet.builder().issuer(issuer).issuedAt(now).expiresAt(now.plus(ttl)).subject(user.getId().toString())
-            .claim("email", user.getEmail()).claim("name", user.getName()).claim("roles", List.of(user.getRole().name())).build();
-        String token=jwtEncoder.encode(JwtEncoderParameters.from(JwsHeader.with(() -> "HS256").build(), claims)).getTokenValue();
+            .claim("email",user.getEmail()).claim("name",user.getName()).claim("roles",List.of(user.getRole().name())).build();
+        String token=jwtEncoder.encode(JwtEncoderParameters.from(JwsHeader.with(() -> "HS256").build(),claims)).getTokenValue();
         return new AuthDtos.AuthResponse(token,"Bearer",ttl.toSeconds(),user.getId(),user.getName(),user.getRole().name());
     }
 }

@@ -21,6 +21,7 @@ services:
       DATABASE_USER: matchhub
       DATABASE_PASSWORD: matchhub
       JWT_SECRET: ${JWT_SECRET:?configure JWT_SECRET em Base64}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
     ports:
       - "8080:8080"
     depends_on:

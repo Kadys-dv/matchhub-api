@@ -28,9 +28,13 @@ docker compose up --build
 
 ## Qualidade
 
+Veja também o [diagrama de arquitetura](docs/ARCHITECTURE.md).
+
 ```powershell
 .\mvnw.cmd test
 ```
+
+`mvnw verify` também gera o relatório JaCoCo em `target/site/jacoco/index.html`.
 
 O controle de autorização é aplicado pela API; o frontend nunca é considerado uma fronteira de segurança.
 

@@ -14,3 +14,10 @@ jobs:
           java-version: 21
           cache: maven
       - run: ./mvnw --batch-mode verify
+      - name: Publicar cobertura JaCoCo
+        uses: actions/upload-artifact@v4
+        with:
+          name: matchhub-api-coverage
+          path: target/site/jacoco
+          if-no-files-found: error
+          retention-days: 14

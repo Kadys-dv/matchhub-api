@@ -15,7 +15,7 @@ jobs:
           cache: maven
       - run: ./mvnw --batch-mode verify
       - name: Publicar cobertura JaCoCo
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: matchhub-api-coverage
           path: target/site/jacoco
